@@ -39,6 +39,10 @@ if (isset($_POST['ajouter'])) {
 // Récupération de tous les produits
 $produits = $pm->findAll();
 
+// Récupération de tous les produits avec leurs catégories associées
+$pm = new ProduitManager();
+$produits = $pm->findAllWithCategory();
+
 // Affichage des produits s'il y en a
 if (empty($produits)) {
     echo '<p>Il n\'y a aucun produit</p>';
@@ -46,25 +50,15 @@ if (empty($produits)) {
     foreach ($produits as $p) {
         echo "<h2>" . $p['nom'] . "</h2>";
         echo "<p>" . $p['description'] . "</p>";
+        echo "<p>Produit dans la catégorie suivante: " . $p['categories'] . "</p>";
         echo "<p><a href='Views/editProduit.php?id=" . $p['id'] . "'>Modifier</a></p>";
         echo "<p><a href='Views/delProduit.php?id=" . $p['id'] . "'>Supprimer</a></p>";
         echo "<hr>";
     }
 }
 
-// Récupération de tous les produits avec leurs catégories associées
-$pm = new ProduitManager();
-$produits = $pm->findAllWithCategory();
 
-// Affichage des produits avec leurs catégories s'il y en a
-foreach ($produits as $p) {
-    echo "<h2>" . $p['nom'] . "</h2>";
-    echo "<p>" . $p['description'] . "</p>";
-    echo "<p>Catégorie: " . $p['categories'] . "</p>";
-    echo "<p><a href='Views/editProduit.php?id=" . $p['id'] . "'>Modifier</a></p>";
-    echo "<p><a href='Views/delProduit.php?id=" . $p['id'] . "'>Supprimer</a></p>";
-    echo "<hr>";
-}
+
 ?>
 <!DOCTYPE html>
 <html>
